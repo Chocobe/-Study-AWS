@@ -457,3 +457,87 @@
 <img src="./readmeAssets/02-서버리스%20웹사이트%20호스팅%20및%20성능%20가속화/02-01.%20S3%2031.png" width="700px"><br />
 
 <img src="./readmeAssets/02-서버리스%20웹사이트%20호스팅%20및%20성능%20가속화/02-01.%20S3%2032.png" width="700px"><br />
+
+
+
+<br /><hr /><br />
+
+
+
+# 02-02. ``CloudFront`` 를 사용하여 웹사이트 ``성능 가속화`` 하기
+
+``S3 Bucket`` 에 업로드한 파일들은 생성할 때 설정했던 ``Region (지역)`` 에 저장 됩니다.
+
+만약 ``미국 버지니아 북부)`` 를 ``Region (지역)`` 으로 설정한 ``S3 Bucket`` 에 정적 웹사이트 배포 파일을 업로드 하였다면, 우리나라에서는 웹 페이지를 띄우는데 비교적 많은 시간이 걸립니다.
+
+<br />
+
+``Amazon CloudFront`` 서비스는 ``S3 Bucket`` 의 ``Object (파일)`` 들을 ``캐싱`` 해주는 기능을 합니다.
+
+``캐싱 데이터`` 는 전 세계에 분산되어 위치한 ``CloudFront Edge Location`` 에 각각 저장하며, ``S3 Bucket`` 의 데이터 또는 ``정적 웹사이트`` 를 요청하는 사용자의 ``Region (지역)`` 과 가장 가까운 ``CloudFront Edge Location`` 에서 응답해 줍니다.
+
+<br />
+
+``CloudFront`` 서비스를 정리하면 다음과 같습니다.
+
+* ``S3 Bucket`` 의 ``Object (파일)`` 들을 ``캐싱`` 해 줍니다.
+* ``캐싱 데이터`` 는 전 세계에 위치한 ``CloudFront Edge Location`` 에 각각 저장 합니다.
+* 요청 사용자의 ``Region (지역)`` 과 가장 가까운 ``CloudFront Edge Location`` 에서 응답해 줍니다.
+* 사용자가 어느 지역에 있어도, 최상의 속도로 응답해 줄 수 있게 됩니다.
+
+
+<br /><br />
+
+
+``2-1`` 에서 생성했던 ``S3 정적 웹사이트`` 에 ``CloudFront`` 서비스를 연결해 보겠습니다.
+
+``CloudFront`` 설정 흐름은 다음과 같습니다.
+
+1. ``원본 (Origin)`` 설정
+2. ``캐시 동작`` 설정
+3. ``CloudFront`` 설정
+
+<br />
+
+1. ``CloudFront`` 콘솔 페이지에 들어갑니다.
+
+    <img src="./readmeAssets/02-서버리스%20웹사이트%20호스팅%20및%20성능%20가속화/02-02.%20CloudFront%2001.png" width="700px"><br />
+
+2. ``배포 생성`` 버튼을 클릭 합니다.
+
+    <img src="./readmeAssets/02-서버리스%20웹사이트%20호스팅%20및%20성능%20가속화/02-02.%20CloudFront%2002.png" width="700px"><br />
+
+3. ``원본 도메인`` 항목에 ``CloudFront`` 를 적용시킬 ``S3 Bucket`` 을 선택 합니다.
+
+    <img src="./readmeAssets/02-서버리스%20웹사이트%20호스팅%20및%20성능%20가속화/02-02.%20CloudFront%2003.png" width="700px"><br />
+
+    <img src="./readmeAssets/02-서버리스%20웹사이트%20호스팅%20및%20성능%20가속화/02-02.%20CloudFront%2004.png" width="700px"><br />
+
+4. ``기본 캐시 동작`` 은 기본 설정값을 그대로 사용 합니다.
+
+    <img src="./readmeAssets/02-서버리스%20웹사이트%20호스팅%20및%20성능%20가속화/02-02.%20CloudFront%2005.png" width="700px"><br />
+
+5. ``함수 연결`` 은 사용하지 않겠습니다.
+
+    <img src="./readmeAssets/02-서버리스%20웹사이트%20호스팅%20및%20성능%20가속화/02-02.%20CloudFront%2006.png" width="700px"><br />
+
+6. ``CloudFront`` 도 기본 설정값을 사용합니다.
+    * ``가격 분류``: ``CloudFront Edge Location`` 의 사용 범위를 선택 합니다. - (기본값: 전세계)
+    * ``사용자 정의 SSL 인증서``: ``http`` 또는 ``https`` 를 사용하므로, 설정하지 않습니다.
+    * ``표준 로깅``: ``S3 Bucket`` 요청에 대한 기록을 남길지 여부를 설정 합니다.
+
+    <img src="./readmeAssets/02-서버리스%20웹사이트%20호스팅%20및%20성능%20가속화/02-02.%20CloudFront%2007.png" width="700px"><br />
+
+7. 페이지 최하단의 ``배포 생성`` 버튼을 클릭 합니다.
+
+    <img src="./readmeAssets/02-서버리스%20웹사이트%20호스팅%20및%20성능%20가속화/02-02.%20CloudFront%2008.png" width="700px"><br />
+
+8. ``CloudFront`` 배포 생성 결과를 확인할 수 있습니다.
+
+    <img src="./readmeAssets/02-서버리스%20웹사이트%20호스팅%20및%20성능%20가속화/02-02.%20CloudFront%2009.png" width="700px"><br />
+
+9. ``배포 도메인 이름`` 을 사용하여, 브라우저의 ``새 탭`` 에서 접근해 보면, 정상적으로 접근할 수 있습니다.
+    
+    <img src="./readmeAssets/02-서버리스%20웹사이트%20호스팅%20및%20성능%20가속화/02-02.%20CloudFront%2010.png" width="700px"><br />
+
+    <img src="./readmeAssets/02-서버리스%20웹사이트%20호스팅%20및%20성능%20가속화/02-02.%20CloudFront%2011.png" width="700px"><br />
